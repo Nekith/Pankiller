@@ -6,7 +6,7 @@ SubstanceImporter:
   - serializedVersion: 12
     name: roofing_007
     prototypeName: roofing_007
-    shader: {fileID: 4, guid: 0000000000000000f000000000000000, type: 0}
+    shader: {fileID: 2, guid: 0000000000000000f000000000000000, type: 0}
     inputs:
     - name: $normalformat
       value:
@@ -59,8 +59,8 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: Tiles_Amount
       value:
-        scalar[0]: 15
-        scalar[1]: 18
+        scalar[0]: 20
+        scalar[1]: 20
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
@@ -101,7 +101,7 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: Saturation
       value:
-        scalar[0]: .5
+        scalar[0]: .670000017
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
@@ -148,12 +148,12 @@ SubstanceImporter:
         data:
           first:
             name: _Shininess
-          second: .078125
+          second: .072443217
       colors:
         data:
           first:
             name: _Color
-          second: {r: 1, g: 1, b: 1, a: 1}
+          second: {r: .0431444459, g: .977941155, b: .513766229, a: 1}
         data:
           first:
             name: _SpecColor
