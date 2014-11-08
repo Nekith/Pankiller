@@ -11,7 +11,7 @@ public class BlinkingSpotlight : MonoBehaviour
 	void Start()
 	{
 		light = GetComponent<Light>();
-		duration = Random.Range(3.0f, 7.0f);
+		duration = Random.Range(2.5f, 5.0f);
 		flicks = 3;
 	}
 
