@@ -47,14 +47,14 @@ public class ChefController : MonoBehaviour
 	public float addedForceDuration = 0f;
 	
 	private CharacterController characterController;
-	private Animator animator;
+	//private Animator animator;
 	private ChefHud chefHud;
 	//private AudioSource audioSource;
 	
 	void Start()
 	{
 		characterController = GetComponent<CharacterController>();
-		animator = GetComponent<Animator>();
+		//animator = GetComponent<Animator>();
 		chefHud = GetComponent<ChefHud>();
 		//audioSource = GetComponent<AudioSource>();
 	}
@@ -69,7 +69,7 @@ public class ChefController : MonoBehaviour
 		} else {
 			Force();
 		}
-		animator.SetFloat("velocity", speed.magnitude);
+		//animator.SetFloat("velocity", speed.magnitude);
 	}
 	
 	void GetMovementInput()
@@ -107,7 +107,7 @@ public class ChefController : MonoBehaviour
 		Vector3 baseDirection = previousDirection;
 		if (characterController.isGrounded == true) {
 			if (jump == true) {
-				animator.SetBool("jumping", true);
+				//animator.SetBool("jumping", true);
 				verticalVelocity = jumpSpeed;
 				if (isDiving) {
 					verticalVelocity *= diveFactor;
@@ -123,13 +123,14 @@ public class ChefController : MonoBehaviour
 					//audioSource.PlayOneShot(Resources.Load("land") as AudioClip);
 					isJumping = false;
 				}
-				animator.SetBool("jumping", false);
+				//animator.SetBool("jumping", false);
 				fly = 0;
-				baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, 0.4f), 0f, Mathf.Lerp(baseDirection.z, direction.z, 0.4f));
+				//baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, 0.4f), 0f, Mathf.Lerp(baseDirection.z, direction.z, 0.4f));
+				baseDirection = direction;
 			}
 		} else {
 			isJumping = true;
-			animator.SetBool("jumping", true);
+			//animator.SetBool("jumping", true);
 			baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, airControl), 0f, Mathf.Lerp(baseDirection.z, direction.z, airControl));
 		}
 		speed = baseDirection * movementSpeed;
@@ -146,7 +147,7 @@ public class ChefController : MonoBehaviour
 		if (direction != Vector3.zero && angle > 90f) {
 			angleSlowFactor = 1f - (Mathf.Clamp(angle - 90f, 0f, 120f) / 120f * 0.6f);
 			speed *= angleSlowFactor;
-		} else if (characterController.isGrounded && angleSlowFactor != 1f) {
+		} else if (characterController.isGrounded == true && angleSlowFactor != 1f) {
 			angleSlowFactor = Mathf.Lerp(angleSlowFactor, 1f, 0.005f);
 			if (angleSlowFactor >= 0.99f) {
 				angleSlowFactor = 1f;
@@ -160,15 +161,15 @@ public class ChefController : MonoBehaviour
 			}
 		}
 		Vector3 realSpeed = speed + new Vector3(0f, verticalVelocity, 0f);
-		characterController.Move(realSpeed * Time.fixedDeltaTime);
+		characterController.Move(realSpeed * Time.deltaTime);
 		previousDirection = baseDirection;
 	}
 	
 	void Force()
 	{
 		addedForceDirection = new Vector3(Mathf.Lerp(addedForceDirection.x, direction.x, addedForceControl), 0f, Mathf.Lerp(addedForceDirection.z, direction.z, addedForceControl));
-		characterController.Move((addedForceDirection * addedForceFactor + new Vector3(0f, verticalVelocity, 0f)) * Time.fixedDeltaTime);
-		addedForceDuration -= Time.fixedDeltaTime;
+		characterController.Move((addedForceDirection * addedForceFactor + new Vector3(0f, verticalVelocity, 0f)) * Time.deltaTime);
+		addedForceDuration -= Time.deltaTime;
 		previousDirection = addedForceDirection;
 		if (addedForceDuration <= 0f) {
 			addedForceDirection = Vector3.zero;
@@ -196,25 +197,5 @@ public class ChefController : MonoBehaviour
 		} else {
 			isDiving = false;
 		}
-	}
-	
-	[RPC]
-	public void AddForce(Vector3 direction, float factor, float duration)
-	{
-		addedForceDirection = direction;
-		verticalVelocity = addedForceDirection.y * factor;
-		addedForceDirection.y = 0;
-		addedForceFactor = factor;
-		addedForceDuration = duration;
-	}
-	
-	public void SetRotation(Vector2 axis)
-	{
-		Vector3 angles = transform.FindChild("cameraMain").localEulerAngles;
-		angles.x = Mathf.Lerp(angles.x, axis.x, 0.5f);
-		transform.FindChild("cameraMain").localEulerAngles = angles;
-		angles = transform.localEulerAngles;
-		angles.y = Mathf.Lerp(angles.y, axis.y, 0.5f);
-		transform.localEulerAngles = angles;
 	}
 }
