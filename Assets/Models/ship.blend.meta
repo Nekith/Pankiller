@@ -1,24 +1,8 @@
 fileFormatVersion: 2
-guid: 948b974e8973746e29ba9deb78497ec0
+guid: fe2ebc37d6633c54b9e5807e3d9c9322
 ModelImporter:
   serializedVersion: 16
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Circle
-    100004: Cylinder
-    400000: //RootNode
-    400002: Circle
-    400004: Cylinder
-    2300000: Circle
-    2300002: Cylinder
-    2300004: //RootNode
-    3300000: Circle
-    3300002: Cylinder
-    3300004: //RootNode
-    4300000: Cylinder
-    4300002: Circle
-    7400000: Default Take
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
