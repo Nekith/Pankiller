@@ -51,11 +51,10 @@ public class Enemy : MonoBehaviour
     public void Hit(Vector3 force)
     {
         agent.enabled = false;
-        rigidbody.AddForce(force);
         addedForceDirection = force;
         addedForceDuration = 1f;
-        health--;
         if (health > 0) {
+            health--;
             audioSource.PlayOneShot(Resources.Load("carot_hit") as AudioClip);
             addedForceRotation = Vector3.zero;
         } else if (health == 0) {
@@ -67,7 +66,9 @@ public class Enemy : MonoBehaviour
     void Force()
     {
         rigidbody.MovePosition(transform.position + addedForceDirection * Time.fixedDeltaTime);
-        transform.Rotate(addedForceRotation * Time.fixedDeltaTime);
+        if (health <= 0) {
+            transform.Rotate(addedForceRotation * Time.fixedDeltaTime);
+        }
         addedForceDuration -= Time.fixedDeltaTime;
         if (addedForceDuration <= 0f) {
             addedForceDirection = Vector3.zero;
