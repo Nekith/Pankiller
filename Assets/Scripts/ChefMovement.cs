@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChefController : MonoBehaviour
+public class ChefMovement : MonoBehaviour
 {
 	public float movementSpeed = 10f;
 	public float rotationSpeed = 20f;
@@ -44,19 +44,21 @@ public class ChefController : MonoBehaviour
 	[HideInInspector]
 	public float addedForceFactor = 0f;
 	[HideInInspector]
-	public float addedForceDuration = 0f;
+    public float addedForceDuration = 0f;
+    [HideInInspector]
+    public float clankTimer = 0;
 	
 	private CharacterController characterController;
 	//private Animator animator;
 	private ChefHud chefHud;
-	//private AudioSource audioSource;
+	private AudioSource audioSource;
 	
 	void Start()
 	{
 		characterController = GetComponent<CharacterController>();
 		//animator = GetComponent<Animator>();
 		chefHud = GetComponent<ChefHud>();
-		//audioSource = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update()
@@ -117,16 +119,23 @@ public class ChefController : MonoBehaviour
 					fly++;
 					baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, flyControl), 0f, Mathf.Lerp(baseDirection.z, direction.z, flyControl));
 				}
-				//audioSource.PlayOneShot(Resources.Load("jump") as AudioClip);
+				audioSource.PlayOneShot(Resources.Load("chef_jump") as AudioClip);
 			} else {
 				if (isJumping == true) {
-					//audioSource.PlayOneShot(Resources.Load("land") as AudioClip);
+					audioSource.PlayOneShot(Resources.Load("chef_land") as AudioClip);
 					isJumping = false;
 				}
 				//animator.SetBool("jumping", false);
 				fly = 0;
-				//baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, 0.4f), 0f, Mathf.Lerp(baseDirection.z, direction.z, 0.4f));
-				baseDirection = direction;
+				baseDirection = new Vector3(Mathf.Lerp(baseDirection.x, direction.x, 0.4f), 0f, Mathf.Lerp(baseDirection.z, direction.z, 0.4f));
+                if (baseDirection.magnitude >= 0.1f) {
+                    if (clankTimer <= 0f) {
+                        audioSource.PlayOneShot(Resources.Load("clank" + Random.Range(1, 4).ToString()) as AudioClip);
+                        clankTimer = 0.3f;
+                    } else {
+                        clankTimer -= Time.deltaTime;
+                    }
+                }
 			}
 		} else {
 			isJumping = true;

@@ -4,12 +4,10 @@ using System.Collections;
 public class Enemy : MonoBehaviour
 {
     public bool raging = false;
-    public float minVelocityFall = -13f;
 
     //private CharacterController characterController;
 	private GameObject player;
     private NavMeshAgent agent;
-    private float verticalVelocity = 0;
 
 	void Start()
 	{
@@ -20,7 +18,6 @@ public class Enemy : MonoBehaviour
 	
 	void Update()
     {
-        Gravity();
         Navigation();
     }
 
@@ -36,13 +33,4 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(player.transform.position);
         }
 	}
-
-    void Gravity()
-    {
-        if (verticalVelocity > minVelocityFall) {
-            verticalVelocity += 2.0f * Physics.gravity.y * Time.fixedDeltaTime;
-        }
-        Vector3 realSpeed = new Vector3(0f, verticalVelocity, 0f);
-        //characterController.Move(realSpeed * Time.deltaTime);
-    }
 }
