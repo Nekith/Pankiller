@@ -100,7 +100,7 @@ public class ChefMovement : MonoBehaviour
 	void Gravity()
 	{
 		if (verticalVelocity > minVelocityFall) {
-			verticalVelocity += 2.0f * Physics.gravity.y * Time.fixedDeltaTime;
+			verticalVelocity += 2.5f * Physics.gravity.y * Time.fixedDeltaTime;
 		}
 	}
 	
